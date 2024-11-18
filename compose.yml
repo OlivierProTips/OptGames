@@ -1,0 +1,13 @@
+services:
+  huntressgame:
+    build: .
+    container_name: huntressgame
+    ports:
+      - "5000:5000"
+    # volumes:
+    #   - ./game.db:/app/game.db
+    #   - ./assets:/app/assets
+    #   - ./static:/app/static
+    environment:
+      - FLASK_ENV=production
+    restart: unless-stopped

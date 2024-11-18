@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card bg-primary text-white mt-4 mb-4 text-center">
+    <div class="card-body">
+        <h1 class="mb-0">Choose your User</h1>
+    </div>
+</div>
+
+<!-- Conteneur pour centrer les boutons -->
+<div class="container d-flex flex-column align-items-center">
+    {% for user in users %}
+    <div class="mb-3 w-50">
+        <a href="{{ url_for('user_challenges', user_id=user.id) }}" class="btn btn-outline-primary btn-lg w-100 text-center text-wrap">
+            {{ user.name }}
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
