@@ -61,12 +61,15 @@ def insert_challenge(title, description, flag, file_url, challenge_type):
 
 # Parcours des répertoires de challenges
 for challenge_name in os.listdir(challenges_dir):
-    if challenge_name == "__pycache__": continue
     challenge_path = os.path.join(challenges_dir, challenge_name)
     if os.path.isdir(challenge_path):  # Vérifier que c'est un répertoire
         # Lecture des fichiers description.txt et flag.txt
         description_path = os.path.join(challenge_path, 'description.txt')
         flag_path = os.path.join(challenge_path, 'flag.txt')
+        
+        if not (os.path.exists(description_path) and os.path.exists(flag_path)):
+            print(f"Les fichiers 'description.txt' et/ou 'flag.txt' n'existent pas pour {challenge_name}.")
+            continue
 
         with open(description_path, 'r') as f:
             description = f.read().strip()
