@@ -23,14 +23,14 @@ CREATE TABLE IF NOT EXISTS challenges (
 )
 ''')
 cursor.execute('''
-CREATE TABLE "users" (
+CREATE TABLE IF NOT EXISTS "users" (
 	"id"	INTEGER NOT NULL UNIQUE,
 	"name"	TEXT NOT NULL UNIQUE,
 	PRIMARY KEY("id" AUTOINCREMENT)
 )
 ''')
 cursor.execute('''
-CREATE TABLE "results" (
+CREATE TABLE IF NOT EXISTS "results" (
 	"user_id"	INTEGER NOT NULL,
 	"challenge_id"	INTEGER NOT NULL,
 	PRIMARY KEY("challenge_id","user_id"),
@@ -39,7 +39,7 @@ CREATE TABLE "results" (
 )
 ''')
 cursor.execute('''
-CREATE TABLE "settings" (
+CREATE TABLE IF NOT EXISTS "settings" (
 	"name"	TEXT UNIQUE,
 	"value"	TEXT
 )
@@ -61,6 +61,7 @@ def insert_challenge(title, description, flag, file_url, challenge_type):
 
 # Parcours des répertoires de challenges
 for challenge_name in os.listdir(challenges_dir):
+    if challenge_name == "__pycache__": continue
     challenge_path = os.path.join(challenges_dir, challenge_name)
     if os.path.isdir(challenge_path):  # Vérifier que c'est un répertoire
         # Lecture des fichiers description.txt et flag.txt
