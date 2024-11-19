@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, sessionmaker
 import os
-import challenges.orders as orders
+from challenges.orders import orders
 
 # Configuration de la base de données (ajustez le chemin si nécessaire)
 BASE_DIR = "app/game.db"
@@ -30,14 +30,13 @@ def update_challenge_order(orders):
 
     :param orders: Liste d'objets ChallengeOrder avec les titres et ordres à mettre à jour.
     """
-    for challenge_order in orders:
+    for index, name in enumerate(orders, start=1):
         # Rechercher et mettre à jour le challenge
-        challenge = session.query(Challenge).filter(Challenge.title == challenge_order.title).first()
+        challenge = session.query(Challenge).filter_by(title=name).first()
         if challenge:
-            challenge.order = challenge_order.order
-            print(f"Updated '{challenge.title}' with order {challenge.order}")
+            challenge.order = index
         else:
-            print(f"Challenge with title '{challenge_order.title}' not found.")
+            print(f"Challenge '{name}' non trouvé dans la base de données.")
     
     # Commit des changements dans la base de données
     session.commit()
