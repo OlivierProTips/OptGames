@@ -1,1 +1,3 @@
 /venv
+app/game.db
+app/__pycache__
