@@ -1,15 +1,23 @@
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session
 from flask_sqlalchemy import SQLAlchemy
 import os
 import re
+import hashlib
 
 app = Flask(__name__)
+app.secret_key = "14c2455de4183c9b4c3f1fded806f087"
+
 db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'game.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Modèles
+class Setting(db.Model):
+    __tablename__ = 'settings'
+    name = db.Column(db.String, primary_key=True)
+    value = db.Column(db.String, nullable=False)
+    
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -35,6 +43,29 @@ FILE_FOLDER = 'assets/files'
 app.config['FILE_FOLDER'] = FILE_FOLDER
     
 # Routes
+@app.before_request
+def require_login():
+    if not session.get('authenticated') and request.endpoint not in ('login', 'static'):
+        return redirect(url_for('login'))
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        password = request.form.get('password')
+        hashed_password = hashlib.sha1(password.encode()).hexdigest()
+        setting = Setting.query.filter_by(name='admin_password').first()
+        if setting and setting.value == hashed_password:
+            session['authenticated'] = True
+            return redirect(url_for('index'))
+        else:
+            return render_template('login.html', error="Invalid password.")
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('authenticated', None)
+    return redirect(url_for('login'))
+
 @app.route('/')
 def index():
     users = User.query.all()

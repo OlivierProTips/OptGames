@@ -38,6 +38,12 @@ CREATE TABLE "results" (
 	FOREIGN KEY("user_id") REFERENCES "users"("id")
 )
 ''')
+cursor.execute('''
+CREATE TABLE "settings" (
+	"name"	TEXT UNIQUE,
+	"value"	TEXT
+)
+''')
 conn.commit()
 
 # Fonction pour insérer un challenge dans la base de données
