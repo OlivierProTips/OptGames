@@ -5,6 +5,7 @@ import shutil
 # Chemins de répertoire
 challenges_dir = 'challenges'
 assets_dir = 'app/assets/files'
+os.makedirs(assets_dir, exist_ok=True)
 
 # Connexion à la base de données SQLite
 conn = sqlite3.connect('app/game.db')
@@ -19,6 +20,22 @@ CREATE TABLE IF NOT EXISTS challenges (
     flag TEXT NOT NULL,
     file_url TEXT,
     type TEXT NOT NULL
+)
+''')
+cursor.execute('''
+CREATE TABLE "users" (
+	"id"	INTEGER NOT NULL UNIQUE,
+	"name"	TEXT NOT NULL UNIQUE,
+	PRIMARY KEY("id" AUTOINCREMENT)
+)
+''')
+cursor.execute('''
+CREATE TABLE "results" (
+	"user_id"	INTEGER NOT NULL,
+	"challenge_id"	INTEGER NOT NULL,
+	PRIMARY KEY("challenge_id","user_id"),
+	FOREIGN KEY("challenge_id") REFERENCES "challenges"("id"),
+	FOREIGN KEY("user_id") REFERENCES "users"("id")
 )
 ''')
 conn.commit()
