@@ -1,6 +1,7 @@
 import os
 import sqlite3
 import shutil
+import zipfile
 
 # Chemins de répertoire
 challenges_dir = 'challenges'
@@ -81,18 +82,34 @@ for challenge_name in os.listdir(challenges_dir):
         file_url = None
         challenge_type = 'simple'
         file_dir = os.path.join(challenge_path, 'file')
+
         if os.path.isdir(file_dir):
             files = os.listdir(file_dir)
             if files:  # Vérifier qu'il y a au moins un fichier
-                file_name = files[0]
-                src_file_path = os.path.join(file_dir, file_name)
                 dest_dir = os.path.join(assets_dir, challenge_name)
                 os.makedirs(dest_dir, exist_ok=True)
-                dest_file_path = os.path.join(dest_dir, file_name)
-
-                shutil.copy2(src_file_path, dest_file_path)
-                file_url = f'/assets/files/{challenge_name}/{file_name}'
                 challenge_type = 'file'
+                
+                if len(files) == 1:
+                    # Cas d'un seul fichier : copier normalement
+                    file_name = files[0]
+                    src_file_path = os.path.join(file_dir, file_name)
+                    dest_file_path = os.path.join(dest_dir, file_name)
+
+                    shutil.copy2(src_file_path, dest_file_path)
+                    file_url = f'/assets/files/{challenge_name}/{file_name}'
+                else:
+                    # Cas de plusieurs fichiers : créer un ZIP
+                    zip_file_name = f'{challenge_name}.zip'
+                    zip_file_path = os.path.join(dest_dir, zip_file_name)
+
+                    with zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+                        for file_name in files:
+                            src_file_path = os.path.join(file_dir, file_name)
+                            # Ajouter le fichier au ZIP avec un chemin relatif
+                            zipf.write(src_file_path, file_name)
+
+                    file_url = f'/assets/files/{challenge_name}/{zip_file_name}'
 
         # Insérer le challenge dans la base de données
         insert_challenge(challenge_name, description, flag, file_url, challenge_type)
