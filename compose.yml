@@ -6,8 +6,17 @@ services:
       - "5000:5000"
     volumes:
       - ./data:/app/assets
-      # - ./data/game.db:/app/game.db
-      # - ./static:/app/static
     environment:
       - FLASK_ENV=production
+    restart: unless-stopped
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/data  # Monte le dossier contenant la base SQLite
+    environment:
+      - ADMINER_DEFAULT_SERVER=/data/data.db  # Spécifie le chemin de la base SQLite
     restart: unless-stopped
