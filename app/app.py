@@ -7,7 +7,7 @@ import hashlib
 app = Flask(__name__)
 app.secret_key = "14c2455de4183c9b4c3f1fded806f087"
 
-db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'game.db')
+db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets/game.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)

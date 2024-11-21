@@ -8,7 +8,7 @@ password = input("Veuillez entrer le mot de passe administrateur : ")
 hashed_password = hashlib.sha1(password.encode()).hexdigest()
 
 # Chemin vers votre base de données
-db_path = "app/game.db"
+db_path = "app/assets/game.db"
 
 # Connexion à la base de données et insertion
 connection = sqlite3.connect(db_path)

@@ -19,7 +19,7 @@ class User(Base):
     name = Column(String, nullable=False, unique=True)
 
 # Chemin vers la base de données SQLite
-db_path = "app/game.db"
+db_path = "app/assets/game.db"
 engine = create_engine(f"sqlite:///{db_path}")
 
 # Créer une session

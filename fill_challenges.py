@@ -8,7 +8,7 @@ assets_dir = 'app/assets/files'
 os.makedirs(assets_dir, exist_ok=True)
 
 # Connexion à la base de données SQLite
-conn = sqlite3.connect('app/game.db')
+conn = sqlite3.connect('app/assets/game.db')
 cursor = conn.cursor()
 
 # Création de la table challenges si elle n'existe pas déjà

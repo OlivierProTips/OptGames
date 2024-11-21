@@ -4,7 +4,7 @@ import os
 from challenges.orders import orders
 
 # Configuration de la base de données (ajustez le chemin si nécessaire)
-BASE_DIR = "app/game.db"
+BASE_DIR = "app/assets/game.db"
 DB_PATH = f"sqlite:///{BASE_DIR}"
 
 # Initialisation SQLAlchemy
