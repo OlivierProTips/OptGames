@@ -1,7 +1,8 @@
 from sqlalchemy import create_engine, MetaData, Table
+import vars
 
 # Chemin vers la base de données SQLite
-db_path = "app/assets/game.db"
+db_path = f"{vars.ASSET_DIR}/game.db"
 engine = create_engine(f"sqlite:///{db_path}")
 
 # Charger les métadonnées

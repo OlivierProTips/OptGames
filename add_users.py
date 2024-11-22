@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, declarative_base
+import vars
 
 # Liste d'utilisateurs à insérer
 user_names = [
@@ -19,7 +20,7 @@ class User(Base):
     name = Column(String, nullable=False, unique=True)
 
 # Chemin vers la base de données SQLite
-db_path = "app/assets/game.db"
+db_path = f"{vars.ASSET_DIR}/game.db"
 engine = create_engine(f"sqlite:///{db_path}")
 
 # Créer une session

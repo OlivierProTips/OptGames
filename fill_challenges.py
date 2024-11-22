@@ -1,10 +1,11 @@
 import os
 import sqlite3
 import shutil
+import vars
 
 # Chemins de répertoire
 challenges_dir = 'challenges'
-assets_dir = 'app/assets/files'
+assets_dir = f"{vars.ASSET_DIR}/files"
 os.makedirs(assets_dir, exist_ok=True)
 
 # Connexion à la base de données SQLite
