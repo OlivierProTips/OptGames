@@ -17,6 +17,7 @@ class Challenge(Base):
     flag = Column(String, nullable=False)
     file_url = Column(String)
     type = Column(String, nullable=False)
+    order = Column(Integer, nullable=False)
 
 # Modèle pour les utilisateurs
 class User(Base):
