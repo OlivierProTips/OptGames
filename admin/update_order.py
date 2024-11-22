@@ -1,7 +1,5 @@
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, sessionmaker
-import os
-from challenges.orders import orders
 import vars
 
 # Configuration de la base de données (ajustez le chemin si nécessaire)
@@ -43,6 +41,5 @@ def update_challenge_order(orders):
     session.commit()
     print("Order update completed.")
 
-# Exemple d'utilisation
 if __name__ == "__main__":
-    update_challenge_order(orders)
+    update_challenge_order(vars.ORDERS)

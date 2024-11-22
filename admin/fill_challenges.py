@@ -3,6 +3,7 @@ import shutil
 from sqlalchemy import create_engine, Column, Integer, String, Text, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import sessionmaker, declarative_base
 import vars
+from update_order import update_challenge_order
 
 # Définition de la base de données et des modèles SQLAlchemy
 Base = declarative_base()
@@ -114,3 +115,5 @@ for challenge_name in os.listdir(challenges_dir):
 
         # Insérer le challenge dans la base de données
         insert_challenge(challenge_name, description, flag, file_url, challenge_type)
+
+update_challenge_order(vars.ORDERS)

@@ -2,15 +2,6 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, declarative_base
 import vars
 
-# Liste d'utilisateurs à insérer
-user_names = [
-    "Alice",
-    "Bob",
-    "Charlie",
-    "Diana",
-    "Eve",
-    ]
-
 # Définir la base et la table
 Base = declarative_base()
 
@@ -29,7 +20,7 @@ session = Session()
 
 
 # Insérer les utilisateurs
-for name in user_names:
+for name in vars.USER_NAMES:
     # Vérifier si l'utilisateur existe déjà
     if not session.query(User).filter_by(name=name).first():
         user = User(name=name)
