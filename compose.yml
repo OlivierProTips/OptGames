@@ -1,8 +1,8 @@
 services:
-  huntressgame:
+  ctfgames:
     build: .
     user: 1000:1000
-    container_name: huntressgame
+    container_name: ctfgames
     ports:
       - "5000:5000"
     volumes:
