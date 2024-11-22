@@ -36,7 +36,7 @@ class Result(Base):
 class Setting(Base):
     __tablename__ = 'settings'
 
-    name = Column(String, unique=True)
+    name = Column(String, primary_key=True)
     value = Column(String)
 
 # Initialisation de la base de données
