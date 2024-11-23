@@ -50,8 +50,10 @@ session = Session()
 
 # Chemins de répertoire
 challenges_dir = 'challenges'
-assets_dir = f"{vars.ASSET_DIR}/files"
-os.makedirs(assets_dir, exist_ok=True)
+files_dir = f"{vars.ASSET_DIR}/files"
+os.makedirs(files_dir, exist_ok=True)
+dockers_dir = f"{vars.ASSET_DIR}/dockers"
+os.makedirs(dockers_dir, exist_ok=True)
 
 # Fonction pour insérer un challenge
 def insert_or_update_challenge(title, description, flag, file_url, challenge_type):
@@ -103,7 +105,7 @@ for challenge_name in os.listdir(challenges_dir):
             files = os.listdir(file_dir)
             if files:  # Vérifier qu'il y a au moins un fichier
                 challenge_type = 'file'
-                dest_dir = os.path.join(assets_dir, challenge_name)
+                dest_dir = os.path.join(files_dir, challenge_name)
                 os.makedirs(dest_dir, exist_ok=True)
                 if len(files) == 1:  # Un seul fichier
                     file_name = files[0]
@@ -115,6 +117,17 @@ for challenge_name in os.listdir(challenges_dir):
                     zip_path = os.path.join(dest_dir, f'{challenge_name}.zip')
                     shutil.make_archive(zip_path.replace('.zip', ''), 'zip', file_dir)
                     file_url = f'/assets/files/{challenge_name}/{challenge_name}.zip'
+                    
+        # Check docker folder exists
+        docker_dir = os.path.join(challenge_path, 'docker')
+        if os.path.isdir(docker_dir):
+            files = os.listdir(docker_dir)
+            if files:  # Vérifier qu'il y a au moins un fichier
+                challenge_type = 'docker'
+                dest_dir = os.path.join(dockers_dir, challenge_name)
+                if os.path.exists(dest_dir):
+                    shutil.rmtree(dest_dir)
+                shutil.copytree(docker_dir, dest_dir)
 
         # Insérer le challenge dans la base de données
         insert_or_update_challenge(challenge_name, description, flag, file_url, challenge_type)
