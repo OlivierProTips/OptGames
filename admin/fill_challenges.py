@@ -54,7 +54,7 @@ assets_dir = f"{vars.ASSET_DIR}/files"
 os.makedirs(assets_dir, exist_ok=True)
 
 # Fonction pour insérer un challenge
-def insert_challenge(title, description, flag, file_url, challenge_type):
+def insert_or_update_challenge(title, description, flag, file_url, challenge_type):
     # Vérifier si le challenge existe déjà
     existing_challenge = session.query(Challenge).filter_by(title=title).first()
     if not existing_challenge:
@@ -69,7 +69,13 @@ def insert_challenge(title, description, flag, file_url, challenge_type):
         session.commit()
         print(f'Challenge "{title}" inséré dans la base de données.')
     else:
-        print(f'Challenge "{title}" existe déjà dans la base de données.')
+        # Mettre à jour les champs du challenge existant
+        existing_challenge.description = description
+        existing_challenge.flag = flag
+        existing_challenge.file_url = file_url
+        existing_challenge.type = challenge_type
+        session.commit()
+        print(f'Challenge "{title}" mis à jour dans la base de données.')
 
 # Parcours des répertoires de challenges
 for challenge_name in os.listdir(challenges_dir):
@@ -96,24 +102,21 @@ for challenge_name in os.listdir(challenges_dir):
         if os.path.isdir(file_dir):
             files = os.listdir(file_dir)
             if files:  # Vérifier qu'il y a au moins un fichier
+                challenge_type = 'file'
+                dest_dir = os.path.join(assets_dir, challenge_name)
+                os.makedirs(dest_dir, exist_ok=True)
                 if len(files) == 1:  # Un seul fichier
                     file_name = files[0]
                     src_file_path = os.path.join(file_dir, file_name)
-                    dest_dir = os.path.join(assets_dir, challenge_name)
-                    os.makedirs(dest_dir, exist_ok=True)
                     dest_file_path = os.path.join(dest_dir, file_name)
                     shutil.copy2(src_file_path, dest_file_path)
                     file_url = f'/assets/files/{challenge_name}/{file_name}'
-                    challenge_type = 'file'
                 else:  # Plusieurs fichiers
-                    dest_dir = os.path.join(assets_dir, challenge_name)
-                    os.makedirs(dest_dir, exist_ok=True)
                     zip_path = os.path.join(dest_dir, f'{challenge_name}.zip')
                     shutil.make_archive(zip_path.replace('.zip', ''), 'zip', file_dir)
                     file_url = f'/assets/files/{challenge_name}/{challenge_name}.zip'
-                    challenge_type = 'file'
 
         # Insérer le challenge dans la base de données
-        insert_challenge(challenge_name, description, flag, file_url, challenge_type)
+        insert_or_update_challenge(challenge_name, description, flag, file_url, challenge_type)
 
 update_challenge_order(vars.ORDERS)
