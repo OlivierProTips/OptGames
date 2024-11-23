@@ -9,27 +9,28 @@
         </div>
     </div>
 
-    <p>Challenges Completed: {{ completed_challenges|length }}/{{ challenges|length }}</p>
+    <p>Challenges Completed: <span id="completed-count">{{ completed_challenges|length }}</span>/{{ challenges|length }}</p>
     <div class="row">
         {% for challenge in challenges %}
         <div class="col-md-4">
-            <div class="card mb-4 {% if challenge.id in completed_challenges %}bg-light-success{% endif %}">
+            <div class="card mb-4 {% if challenge.id in completed_challenges %}bg-light-success{% endif %}" id="challenge-card-{{ challenge.id }}">
                 <div class="card-body">
                     <h5 class="card-title">
                         {{ challenge.title }}
                         {% if challenge.id in completed_challenges %}
-                        <span class="badge bg-success">✓</span>
+                        <span class="badge bg-success" id="badge-{{ challenge.id }}">✓</span>
                         {% endif %}
                     </h5>
                     <p class="card-text">{{ challenge.description | replace('\n', '<br>') | safe }}</p>
                     {% if challenge.type == 'file' and challenge.file_url %}
                     <a href="{{ challenge.file_url }}" class="btn btn-primary">Download</a>
                     {% endif %}
-                    <form method="POST" action="{{ url_for('submit_flag', user_id=user.id, challenge_id=challenge.id) }}">
+                    <form class="flag-form" data-challenge-id="{{ challenge.id }}">
                         <div class="input-group mt-3">
-                            <input type="text" name="flag" class="form-control" placeholder="Enter flag">
+                            <input type="text" name="flag" class="form-control flag-input" placeholder="Enter flag">
                             <button type="submit" class="btn btn-success">Submit</button>
                         </div>
+                        <div class="feedback mt-2 text-danger d-none"></div>
                     </form>
                 </div>
             </div>
@@ -38,4 +39,63 @@
         <!-- flag{dcaf803f2a52c19f0f5005526f401515} -->
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const forms = document.querySelectorAll(".flag-form");
+
+        forms.forEach(form => {
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault(); // Empêche le rechargement de la page
+
+                const challengeId = form.dataset.challengeId;
+                const input = form.querySelector(".flag-input");
+                const feedback = form.querySelector(".feedback");
+
+                // Récupérer le flag saisi
+                const flag = input.value.trim();
+
+                if (!flag) {
+                    feedback.textContent = "Flag cannot be empty.";
+                    feedback.classList.remove("d-none");
+                    return;
+                }
+
+                // Envoyer la requête AJAX
+                try {
+                    const response = await fetch(`{{ url_for('submit_flag', user_id=user.id, challenge_id=0).replace('/0', '/') }}${challengeId}`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ flag })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        feedback.classList.add("d-none");
+                        input.value = ""; // Réinitialise le champ
+                        const card = document.getElementById(`challenge-card-${challengeId}`);
+                        const badge = document.getElementById(`badge-${challengeId}`);
+                        
+                        if (badge) badge.classList.remove("d-none");
+                        else card.querySelector("h5").innerHTML += ' <span class="badge bg-success">✓</span>';
+
+                        // Mettre à jour le compteur
+                        const completedCount = document.getElementById("completed-count");
+                        completedCount.textContent = parseInt(completedCount.textContent) + 1;
+
+                        card.classList.add("bg-light-success");
+                    } else {
+                        feedback.textContent = result.message || "Incorrect flag.";
+                        feedback.classList.remove("d-none");
+                    }
+                } catch (error) {
+                    feedback.textContent = "An error occurred. Please try again.";
+                    feedback.classList.remove("d-none");
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}
+
