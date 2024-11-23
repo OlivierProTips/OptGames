@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import os
 import re
@@ -89,18 +89,22 @@ def user_challenges(user_id):
 @app.route('/submit_flag/<int:user_id>/<int:challenge_id>', methods=['POST'])
 def submit_flag(user_id, challenge_id):
     challenge = Challenge.query.get_or_404(challenge_id)
-    user_flag = request.form.get('flag').strip()
+    user_flag = request.json.get('flag', '').strip()
+
     # Vérifier le format du flag
     flag_pattern = r'^flag\{[0-9a-fA-F]+\}$'  # Regex pour flag{chaine hexa}
     if not re.match(flag_pattern, user_flag):
-        return redirect(url_for('user_challenges', user_id=user_id))
+        return jsonify({'success': False, 'message': 'Invalid flag format.'})
+
     if user_flag == challenge.flag:
         # Ajouter un résultat si le flag est correct
         if not Result.query.filter_by(user_id=user_id, challenge_id=challenge_id).first():
             result = Result(user_id=user_id, challenge_id=challenge_id)
             db.session.add(result)
             db.session.commit()
-    return redirect(url_for('user_challenges', user_id=user_id))
+        return jsonify({'success': True})
+
+    return jsonify({'success': False, 'message': 'Incorrect flag.'})
 
 @app.route('/results')
 def results():
