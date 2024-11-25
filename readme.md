@@ -2,9 +2,9 @@
 
 ## Steps
 
-1. Launch container
+1. Create data folder
     ```bash
-    docker compose up -d --build --force-recreate
+    mkdir data
     ```
 2. Create a venv and install requirements
     ```bash
@@ -17,6 +17,10 @@
     python3 fill_challenges.py
     python3 admin_password.py
     python3 add_users.py
+    ```
+4. Launch container
+    ```bash
+    docker compose up -d --build --force-recreate
     ```
 
 ## Challenge structure
