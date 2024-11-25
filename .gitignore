@@ -3,3 +3,4 @@ app/game.db
 **/__pycache__
 app/assets
 .DS_Store
+test

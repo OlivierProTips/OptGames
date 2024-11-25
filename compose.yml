@@ -9,4 +9,5 @@ services:
       - ./data:/app/assets
     environment:
       - FLASK_ENV=production
+      - DOCKER_URL=localhost
     restart: unless-stopped

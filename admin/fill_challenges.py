@@ -40,6 +40,14 @@ class Setting(Base):
 
     name = Column(String, primary_key=True)
     value = Column(String)
+    
+class DockerPort(Base):
+    __tablename__ = 'docker_ports'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    challenge_id = Column(Integer, ForeignKey('challenges.id'), nullable=False)
+    port = Column(Integer, nullable=False, unique=True)
 
 # Initialisation de la base de données
 db_path = f"{vars.ASSET_DIR}/game.db"
@@ -65,7 +73,8 @@ def insert_or_update_challenge(title, description, flag, file_url, challenge_typ
             description=description,
             flag=flag,
             file_url=file_url,
-            type=challenge_type
+            type=challenge_type,
+            order=100
         )
         session.add(new_challenge)
         session.commit()
