@@ -1,0 +1,2 @@
+Can you beat the machine to the famous rock-paper-scissor?
+Beware, time is running.

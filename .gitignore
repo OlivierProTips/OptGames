@@ -4,3 +4,4 @@ app/game.db
 app/assets
 .DS_Store
 test
+data
