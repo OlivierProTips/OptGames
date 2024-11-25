@@ -13,6 +13,7 @@ ORDERS = [
     "TXT Message",
     "Zulu",
     "MatryoshkaQR",
+    "Test",
 ]
 
 # Liste d'utilisateurs à insérer
