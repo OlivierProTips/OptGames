@@ -1,6 +1,6 @@
-FROM python:3.11-alpine
+FROM python:3.11-slim
 
-RUN apk update --no-cache && apk add --no-cache socat
+RUN apt update && apt install socat -y
 
 WORKDIR /challenge
 COPY app/main.py .
