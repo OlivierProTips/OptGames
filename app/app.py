@@ -7,7 +7,7 @@ import random
 import docker
 
 app = Flask(__name__)
-app.secret_key = "14c2455de4183c9b4c3f1fded806f087"
+app.secret_key = os.getenv('SECRET_KEY', os.urandom(32).hex())
 
 DOCKER_URL = os.getenv('DOCKER_URL', 'localhost')
 
@@ -153,6 +153,7 @@ def login():
         setting = Setting.query.filter_by(name='admin_password').first()
         if setting and setting.value == hashed_password:
             session['authenticated'] = True
+            session['flag'] = "flag{0d6ab666b57cb29de136d57afcad8758}"
             return redirect(url_for('index'))
         else:
             return render_template('login.html', error="Invalid password.")

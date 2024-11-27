@@ -4,6 +4,7 @@ ASSET_DIR = "../data"
 ORDERS = [
     "Hidden somewhere",
     "Six Fo(u)r the Base",
+    "Chocolate Chips",
     "Too Many Bits",
     "BaseFFFF+1",
     "XIII + 32",
@@ -13,6 +14,7 @@ ORDERS = [
     "TXT Message",
     "Zulu",
     "MatryoshkaQR",
+    "Whamazon",
     "Shifumi",
 ]
 
