@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, declarative_base
-import vars
+import config
 
 # Définir la base et la table
 Base = declarative_base()
@@ -11,7 +11,7 @@ class User(Base):
     name = Column(String, nullable=False, unique=True)
 
 # Chemin vers la base de données SQLite
-db_path = f"{vars.ASSET_DIR}/game.db"
+db_path = f"{config.ASSET_DIR}/game.db"
 engine = create_engine(f"sqlite:///{db_path}")
 
 # Créer une session
@@ -20,7 +20,7 @@ session = Session()
 
 
 # Insérer les utilisateurs
-for name in vars.USER_NAMES:
+for name in config.USER_NAMES:
     # Vérifier si l'utilisateur existe déjà
     if not session.query(User).filter_by(name=name).first():
         user = User(name=name)

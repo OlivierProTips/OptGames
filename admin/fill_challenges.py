@@ -2,7 +2,7 @@ import os
 import shutil
 from sqlalchemy import create_engine, Column, Integer, String, Text, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import sessionmaker, declarative_base
-import vars
+import config
 from update_order import update_challenge_order
 
 # Définition de la base de données et des modèles SQLAlchemy
@@ -50,7 +50,7 @@ class DockerPort(Base):
     port = Column(Integer, nullable=False, unique=True)
 
 # Initialisation de la base de données
-db_path = f"{vars.ASSET_DIR}/game.db"
+db_path = f"{config.ASSET_DIR}/game.db"
 engine = create_engine(f'sqlite:///{db_path}')
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
@@ -58,9 +58,9 @@ session = Session()
 
 # Chemins de répertoire
 challenges_dir = 'challenges'
-files_dir = f"{vars.ASSET_DIR}/files"
+files_dir = f"{config.ASSET_DIR}/files"
 os.makedirs(files_dir, exist_ok=True)
-dockers_dir = f"{vars.ASSET_DIR}/dockers"
+dockers_dir = f"{config.ASSET_DIR}/dockers"
 os.makedirs(dockers_dir, exist_ok=True)
 
 # Fonction pour insérer un challenge
@@ -141,4 +141,4 @@ for challenge_name in os.listdir(challenges_dir):
         # Insérer le challenge dans la base de données
         insert_or_update_challenge(challenge_name, description, flag, file_url, challenge_type)
 
-update_challenge_order(vars.ORDERS)
+update_challenge_order(config.ORDERS)

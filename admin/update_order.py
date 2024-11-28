@@ -1,9 +1,9 @@
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, sessionmaker
-import vars
+import config
 
 # Configuration de la base de données (ajustez le chemin si nécessaire)
-BASE_DIR = f"{vars.ASSET_DIR}/game.db"
+BASE_DIR = f"{config.ASSET_DIR}/game.db"
 DB_PATH = f"sqlite:///{BASE_DIR}"
 
 # Initialisation SQLAlchemy
@@ -42,4 +42,4 @@ def update_challenge_order(orders):
     print("Order update completed.")
 
 if __name__ == "__main__":
-    update_challenge_order(vars.ORDERS)
+    update_challenge_order(config.ORDERS)
