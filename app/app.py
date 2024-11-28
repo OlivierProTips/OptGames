@@ -86,15 +86,15 @@ def launch_docker(dockerfile_dir, user_id, challenge_id):
     existing_port = DockerPort.query.filter_by(user_id=user_id).first()
     if existing_port:
         raise Exception("You already have a container running.")
+
+    # Générer un port disponible entre 40000 et 50000
+    used_ports = {entry.port for entry in DockerPort.query.all()}
+    port = random.choice([p for p in range(40000, 50001) if p not in used_ports])
     
     # Ajouter l'entrée dans la table DockerPort
     new_entry = DockerPort(user_id=user_id, challenge_id=challenge_id, port=port)
     db.session.add(new_entry)
     db.session.commit()
-
-    # Générer un port disponible entre 40000 et 50000
-    used_ports = {entry.port for entry in DockerPort.query.all()}
-    port = random.choice([p for p in range(40000, 50001) if p not in used_ports])
 
     # Construire et démarrer le container
     try:
