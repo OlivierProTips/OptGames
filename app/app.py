@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 import os
 import re
@@ -7,7 +7,7 @@ import random
 import docker
 
 app = Flask(__name__)
-app.secret_key = os.getenv('SECRET_KEY', os.urandom(32).hex())
+app.secret_key = os.getenv('SECRET_KEY', "aaeab9950dd82c713bafc661f4569481")
 
 DOCKER_URL = os.getenv('DOCKER_URL', 'localhost')
 
@@ -153,8 +153,9 @@ def login():
         setting = Setting.query.filter_by(name='admin_password').first()
         if setting and setting.value == hashed_password:
             session['authenticated'] = True
-            session['flag'] = "flag{0d6ab666b57cb29de136d57afcad8758}"
-            return redirect(url_for('index'))
+            response = make_response(redirect(url_for('index')))
+            response.set_cookie('flag', 'flag{0d6ab666b57cb29de136d57afcad8758}')
+            return response
         else:
             return render_template('login.html', error="Invalid password.")
     return render_template('login.html')
