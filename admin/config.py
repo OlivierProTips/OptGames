@@ -2,12 +2,12 @@
 ASSET_DIR = "../data"
 
 ORDERS = [
+    "Too Many Bits",
     "Hidden somewhere",
     "Six Fo(u)r the Base",
-    "Chocolate Chips",
-    "Too Many Bits",
-    "BaseFFFF+1",
     "XIII + 32",
+    "Chocolate Chips",
+    "BaseFFFF+1",
     "Unbelievable",
     "Cattle",
     "Odobenus",

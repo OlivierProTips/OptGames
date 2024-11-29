@@ -13,9 +13,9 @@
     <div class="row">
         {% for challenge in challenges %}
         <div class="col-md-4">
-            <div class="card mb-4 {% if challenge.id in completed_challenges %}bg-light-success{% endif %}">
+            <div id="challenge-card-{{ challenge.id }}" class="card mb-4 {% if challenge.id in completed_challenges %}bg-light-success{% endif %}">
                 <div class="card-body">
-                    <h5 class="card-title">
+                    <h5 id="challenge-title-{{ challenge.id }}" class="card-title">
                         {{ challenge.title }}
                         {% if challenge.id in completed_challenges %}
                         <span class="badge bg-success">✓</span>
@@ -43,12 +43,13 @@
                     {% endif %}
                     {% endif %}
 
-                    <form method="POST" action="{{ url_for('submit_flag', user_id=user.id, challenge_id=challenge.id) }}">
+                    <form id="flag-form-{{ challenge.id }}" data-user-id="{{ user.id }}" data-challenge-id="{{ challenge.id }}">
                         <div class="input-group mt-3">
-                            <input type="text" name="flag" class="form-control" placeholder="Enter flag">
-                            <button type="submit" class="btn btn-success">Submit</button>
+                            <input type="text" name="flag" class="form-control" placeholder="Enter flag" required>
+                            <button type="button" class="btn btn-success" onclick="submitFlag({{ challenge.id }})">Submit</button>
                         </div>
                     </form>
+                    <div id="flag-result-{{ challenge.id }}" class="mt-2"></div>
                 </div>
             </div>
         </div>
@@ -98,6 +99,43 @@
             }
         })
         .catch(error => console.error("Error:", error));
+    }
+
+    async function submitFlag(challengeId) {
+        const form = document.getElementById(`flag-form-${challengeId}`);
+        const userId = form.getAttribute('data-user-id');
+        const challengeIdAttr = form.getAttribute('data-challenge-id');
+        const flagInput = form.querySelector('input[name="flag"]');
+        const flag = flagInput.value.trim();
+        const resultDiv = document.getElementById(`flag-result-${challengeId}`);
+        const challengeCard = document.getElementById(`challenge-card-${challengeId}`);
+        const challengeTitle = document.getElementById(`challenge-title-${challengeId}`);
+
+        if (!flag) {
+            resultDiv.innerHTML = '<span class="text-danger">Please enter a flag.</span>';
+            return;
+        }
+
+        try {
+            const response = await fetch(`/submit_flag/${userId}/${challengeIdAttr}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ flag: flag }),
+            });
+
+            const result = await response.json();
+            if (response.ok && result.success) {
+                challengeCard.classList.add('bg-light-success');
+                challengeTitle.insertAdjacentHTML('beforeend', ' <span class="badge bg-success">✓</span>');
+                flagInput.value = '';
+            } else {
+                resultDiv.innerHTML = `<span class="text-danger">${result.message || 'Flag validation failed.'}</span>`;
+            }
+        } catch (error) {
+            resultDiv.innerHTML = `<span class="text-danger">Error: ${error.message}</span>`;
+        }
     }
 </script>
 {% endblock %}
