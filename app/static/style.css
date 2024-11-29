@@ -1,3 +1,11 @@
+body {
+    background-image: url('/static/images/background.jpg');
+    background-size: cover; /* Pour que l'image couvre tout l'écran */
+    background-repeat: no-repeat; /* Empêche la répétition */
+    background-attachment: fixed; /* L'image reste fixe lors du défilement */
+    background-position: center; /* Centre l'image */
+    color: white; /* Change la couleur du texte si nécessaire */
+}
 .bg-light-success {
     background-color: #d4edda; /* Vert clair agréable (teinte Bootstrap success light) */
 }
