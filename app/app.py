@@ -74,7 +74,7 @@ client = docker.from_env()
 # Lancement d'un container Docker
 def launch_docker(dockerfile_dir, user_id, challenge_id):
         # Convertir le chemin en absolu
-    dockerfile_dir = os.path.abspath('app/' + dockerfile_dir)
+    dockerfile_dir = os.path.abspath(dockerfile_dir)
     
     # Vérifier que le répertoire existe et contient un Dockerfile
     if not os.path.isdir(dockerfile_dir):
