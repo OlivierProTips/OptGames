@@ -18,7 +18,9 @@
     python3 admin_password.py
     python3 add_users.py
     ```
-4. Launch container
+4. Update compose
+    Utiliser `getent group docker` pour avoir le GID du group docker
+5. Launch container
     ```bash
     docker compose up -d --build --force-recreate
     ```

@@ -1,7 +1,7 @@
 services:
   ctfgames:
     build: .
-    user: 1000:1000
+    user: 1000:109 # ID user:docker_group
     container_name: ctfgames
     ports:
       - "5000:5000"
@@ -13,5 +13,3 @@ services:
       - DOCKER_URL=localhost
       - SECRET_KEY=a5d5d08e5e3c637c8c370527233f291d
     restart: unless-stopped
-    group_add:
-      - 109
