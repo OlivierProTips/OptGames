@@ -210,8 +210,8 @@ def submit_flag(user_id, challenge_id):
 
     return jsonify({'success': False, 'message': 'Incorrect flag.'})
 
-@app.route('/results')
-def results():
+@app.route('/results/<int:user_id>')
+def results(user_id):
     # Récupérer tous les utilisateurs
     users = db.session.query(User).all()  # Remplacez 'User' par votre modèle d'utilisateur
     
@@ -237,7 +237,7 @@ def results():
     results = sorted(results, key=lambda x: x['completed_challenges_count'], reverse=True)
     
     # Passer les résultats à la page 'results.html'
-    return render_template('results.html', users=results)
+    return render_template('results.html', users=results, user_id=user_id)
 
 @app.route('/start_docker/<int:user_id>/<int:challenge_id>', methods=['POST'])
 def start_docker(user_id, challenge_id):
