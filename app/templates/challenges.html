@@ -67,7 +67,7 @@
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ dockerfile_dir: dockerDir, challengeName: ${challengeName} })
+            body: JSON.stringify({ dockerfile_dir: dockerDir, challengeName: `${challengeName}` })
         })
         .then(response => response.json())
         .then(data => {
@@ -90,7 +90,7 @@
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ challengeName: ${challengeName} })
+            body: JSON.stringify({ challengeName: `${challengeName}` })
         })
         .then(response => response.json())
         .then(data => {
