@@ -243,7 +243,7 @@ def results(user_id):
 def start_docker(user_id, challenge_id):
     data = request.json
     docker_dir = data['dockerfile_dir']
-    challengeName = data['challengeName']
+    challengeName = data['challengeName'].lower()
     try:
         port = launch_docker(docker_dir, user_id, challenge_id, challengeName)
         return jsonify({'success': True, 'port': port})
@@ -253,7 +253,7 @@ def start_docker(user_id, challenge_id):
 @app.route('/stop_docker/<int:user_id>/<int:challenge_id>', methods=['POST'])
 def stop_docker(user_id, challenge_id):
     data = request.json
-    challengeName = data['challengeName']
+    challengeName = data['challengeName'].lower()
     try:
         stop_container(user_id, challenge_id, challengeName)
         return jsonify({'success': True})
