@@ -72,7 +72,7 @@ app.config['FILE_FOLDER'] = FILE_FOLDER
 client = docker.from_env()
 
 # Lancement d'un container Docker
-def launch_docker(dockerfile_dir, user_id, challenge_id):
+def launch_docker(dockerfile_dir, user_id, challenge_id, challengeName):
         # Convertir le chemin en absolu
     dockerfile_dir = os.path.abspath(dockerfile_dir)
     
@@ -98,10 +98,10 @@ def launch_docker(dockerfile_dir, user_id, challenge_id):
 
     # Construire et démarrer le container
     try:
-        image, build_logs = client.images.build(path=dockerfile_dir, tag=f"challenge_{challenge_id}")
+        image, build_logs = client.images.build(path=dockerfile_dir, tag=f"challenge_{challengeName}")
         container = client.containers.run(
-            image=f"challenge_{challenge_id}",
-            name=f"challenge_{user_id}_{challenge_id}",
+            image=f"challenge_{challengeName}",
+            name=f"challenge_{challengeName}_{user_id}",
             detach=True,
             ports={"80/tcp": port},
             remove=True,  # Supprime automatiquement le container après l'arrêt
@@ -117,17 +117,17 @@ def launch_docker(dockerfile_dir, user_id, challenge_id):
         raise Exception(f"Failed to launch Docker container: {str(e)}")
 
 # Arrêt d'un container Docker
-def stop_container(user_id, challenge_id):
+def stop_container(user_id, challenge_id, challengeName):
     # Récupérer le port pour ce challenge
     entry = DockerPort.query.filter_by(user_id=user_id, challenge_id=challenge_id).first()
     if not entry:
-        raise Exception(f"No container found for this challenge({challenge_id}).")
+        raise Exception(f"No container found for this challenge({challengeName}).")
 
     try:
         # Trouver le container Docker correspondant
         container = next(
             c for c in client.containers.list(all=True) 
-            if f"challenge_{user_id}_{challenge_id}" in c.name
+            if f"challenge_{challengeName}_{user_id}" in c.name
         )
         container.stop()  # Arrêter le container
 
@@ -243,16 +243,19 @@ def results(user_id):
 def start_docker(user_id, challenge_id):
     data = request.json
     docker_dir = data['dockerfile_dir']
+    challengeName = data['challengeName']
     try:
-        port = launch_docker(docker_dir, user_id, challenge_id)
+        port = launch_docker(docker_dir, user_id, challenge_id, challengeName)
         return jsonify({'success': True, 'port': port})
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 400
 
 @app.route('/stop_docker/<int:user_id>/<int:challenge_id>', methods=['POST'])
 def stop_docker(user_id, challenge_id):
+    data = request.json
+    challengeName = data['challengeName']
     try:
-        stop_container(user_id, challenge_id)
+        stop_container(user_id, challenge_id, challengeName)
         return jsonify({'success': True})
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 400
