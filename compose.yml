@@ -14,4 +14,4 @@ services:
       - SECRET_KEY=a5d5d08e5e3c637c8c370527233f291d
     restart: unless-stopped
     group_add:
-      - ${DOCKER_GID}
+      - 109
