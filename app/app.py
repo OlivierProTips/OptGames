@@ -196,7 +196,7 @@ def submit_flag(user_id, challenge_id):
     user_flag = request.json.get('flag', '').strip()
 
     # Vérifier le format du flag
-    flag_pattern = r'^flag\{[0-9a-fA-F]+\}$'  # Regex pour flag{chaine hexa}
+    flag_pattern = r'^flag\{[0-9a-zA-Z]+\}$'  # Regex pour flag{chaine hexa}
     if not re.match(flag_pattern, user_flag):
         return jsonify({'success': False, 'message': 'Invalid flag format.'})
 
