@@ -1,7 +1,6 @@
 services:
   ctfgames:
     build: .
-    user: 1000:109 # ID user:docker_group
     container_name: ctfgames
     ports:
       - "5000:5000"
