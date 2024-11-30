@@ -42,10 +42,10 @@
                     {% endif %}
                     {% endif %}
 
-                    <form id="flag-form-{{ challenge.id }}" data-user-id="{{ user.id }}" data-challenge-id="{{ challenge.id }}">
+                    <form id="flag-form-{{ challenge.id }}" data-user-id="{{ user.id }}" data-challenge-id="{{ challenge.id }}"  onsubmit="submitFlag({{ challenge.id }}); return false;">
                         <div class="input-group mt-3">
                             <input type="text" name="flag" class="form-control" placeholder="Enter flag" required>
-                            <button type="button" class="btn btn-success" onclick="submitFlag({{ challenge.id }})">Submit</button>
+                            <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                     </form>
                     <div id="flag-result-{{ challenge.id }}" class="mt-2"></div>
@@ -135,6 +135,7 @@
                 challengeCard.classList.add('bg-light-success');
                 challengeTitle.insertAdjacentHTML('beforeend', ' <span class="badge bg-success">✓</span>');
                 flagInput.value = '';
+                resultDiv.innerHTML = '';
             } else {
                 resultDiv.innerHTML = `<span class="text-danger">${result.message || 'Flag validation failed.'}</span>`;
             }
