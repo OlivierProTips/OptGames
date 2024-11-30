@@ -10,3 +10,46 @@ body {
     background-color: #d4edda; /* Vert clair agréable (teinte Bootstrap success light) */
 }
 
+.btn-logout {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    padding: 5px 10px;
+    font-size: 18px;
+    color: white;
+    background-color: #dc3545; /* Rouge pour danger */
+    border: none;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 1;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-logout:hover {
+    background-color: #c82333;
+    transform: scale(1.1);
+}
+
+.logo-bottom-right {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 80px; /* Ajustez la taille du logo */
+    height: auto;
+    opacity: 0.8; /* Légèrement transparent */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.logo-bottom-right:hover {
+    opacity: 1; /* Complètement opaque au survol */
+    transform: scale(1.1); /* Léger agrandissement au survol */
+}
+
+.logo-image {
+    max-width: 100%;
+    height: auto;
+}
