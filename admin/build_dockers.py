@@ -17,13 +17,13 @@ def build_docker_images():
 
         # Check if it's a directory and contains a Dockerfile
         if os.path.isdir(sub_dir_path) and os.path.isfile(dockerfile_path):
-            image_name = f"challenge_{sub_dir}"
+            image_name = f"challenge_{sub_dir}".lower()
             try:
                 print(f"Building Docker image for '{sub_dir}'...")
                 # Build the Docker image
                 image, logs = client.images.build(
                     path=sub_dir_path,
-                    tag=f"{image_name.lower()}"
+                    tag=f"{image_name}"
                 )
                 print(f"Successfully built image '{image_name}'.")
             except docker.errors.BuildError as build_error:
