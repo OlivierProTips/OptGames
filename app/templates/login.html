@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="d-flex justify-content-center align-items-center vh-100">
+<div class="d-flex flex-column align-items-center" style="min-height: 100vh; padding-top: 50px;">
+    <!-- Logo SVG -->
+    <div class="mb-3">
+        <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Logo" style="width: 300px; height: auto;">
+    </div>
+
+    <!-- Login Card -->
     <div class="card shadow p-4" style="width: 25rem;">
         <div class="card-body">
             <h3 class="card-title text-center mb-4">Login</h3>
