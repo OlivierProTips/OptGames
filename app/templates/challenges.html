@@ -95,7 +95,7 @@
             if (data.success) {
                 const containerDiv = document.getElementById(`docker-control-${challengeId}`);
                 containerDiv.innerHTML = `
-                    <p>nc games.olivierprotips.fr ${data.port}</p>
+                    <p>nc {{ docker_url }} ${data.port}</p>
                     <button class="btn btn-danger" onclick="stopDocker(${challengeId}, ${userId}, '${challengeName}')">STOP</button>
                 `;
             } else {
