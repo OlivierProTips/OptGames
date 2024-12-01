@@ -5,11 +5,10 @@ import re
 import hashlib
 import random
 import docker
+import requests
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', "aaeab9950dd82c713bafc661f4569481")
-
-DOCKER_URL = os.getenv('DOCKER_URL', 'localhost')
 
 db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets/game.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
@@ -71,6 +70,16 @@ app.config['FILE_FOLDER'] = FILE_FOLDER
 # Initialisation de Docker SDK
 client = docker.from_env()
 
+def get_public_ip():
+    try:
+        response = requests.get('https://api64.ipify.org?format=json')
+        response.raise_for_status()  # Vérifie si la requête a réussi
+        data = response.json()
+        return data['ip']
+    except requests.RequestException as e:
+        print(f"Erreur pour récupérer l'IP publique : {e}")
+        raise Exception("Erreur pour récupérer l'IP publique.")
+    
 # Lancement d'un container Docker
 def launch_docker(dockerfile_dir, user_id, challenge_id, challengeName):
         # Convertir le chemin en absolu
@@ -188,6 +197,7 @@ def user_challenges(user_id):
     active_dockers_dict = {
         docker.challenge_id: docker.port for docker in active_dockers
     }
+    DOCKER_URL = get_public_ip()
     return render_template('challenges.html', user=user, challenges=challenges, completed_challenges=completed_challenges, active_dockers=active_dockers_dict, docker_url=DOCKER_URL)
 
 @app.route('/submit_flag/<int:user_id>/<int:challenge_id>', methods=['POST'])
