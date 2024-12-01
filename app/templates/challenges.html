@@ -100,6 +100,7 @@
                 `;
             } else {
                 alert("Error starting Docker: " + data.message);
+                button.disabled = false;
             }
         })
         .catch(error => console.error("Error:", error));
