@@ -19,7 +19,7 @@ sudo apt install python3 python3.11-venv apt install python3.11-venv
 
 - Enable challenge ports on router
 - Enable reverse proxy
-- 
+
 ## Steps
 
 1. Create data folder
