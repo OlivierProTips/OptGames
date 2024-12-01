@@ -9,6 +9,5 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock # for docker challenges
     environment:
       - FLASK_ENV=production
-      - DOCKER_URL=localhost
       - SECRET_KEY=a5d5d08e5e3c637c8c370527233f291d
     restart: unless-stopped
