@@ -8,6 +8,27 @@
             <a href="{{ url_for('results', user_id=user.id) }}" class="btn btn-light">Scoreboard</a>
         </div>
     </div>
+    <!-- Rules -->
+    <div class="shadow card bg-light mt-4 mb-4">
+        <div class="card-body">
+            <h4 class="mb-0">Rules</h4>
+            <ul>
+                <li>Each card represents one challenge.</li>
+                <li>
+                    Flag format: <strong>flag{sometext}</strong>
+                </li>
+                <li>
+                    Click on <button class="btn btn-sm btn-primary">DOWNLOAD</button> to retrieve a file for the challenge.
+                </li>
+                <li>
+                    Click on <button class="btn btn-sm btn-success">START</button> to launch a challenge, then connect to it inside a terminal with: <strong>nc {{ docker_url }} [port]</strong><br>
+                    Do not forget to <button class="btn btn-sm btn-danger">STOP</button> the challenge before launching another.
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    
 
     <div class="row">
         {% for challenge in challenges %}
