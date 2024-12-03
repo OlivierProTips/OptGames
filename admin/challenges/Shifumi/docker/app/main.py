@@ -2,7 +2,7 @@ import random
 import signal
 
 MAX_GAMES = 100
-TIMEOUT = 90
+TIMEOUT = 300
 
 def timeout_handler(signum, frame):
     print("\n\nTROP LENT !!!")
