@@ -4,6 +4,7 @@ from sqlalchemy import create_engine, Column, Integer, String, Text, ForeignKey,
 from sqlalchemy.orm import sessionmaker, declarative_base
 import config
 from update_order import update_challenge_order
+from build_dockers import build_docker_images
 
 # Définition de la base de données et des modèles SQLAlchemy
 Base = declarative_base()
@@ -142,3 +143,4 @@ for challenge_name in os.listdir(challenges_dir):
         insert_or_update_challenge(challenge_name, description, flag, file_url, challenge_type)
 
 update_challenge_order(config.ORDERS)
+build_docker_images()
