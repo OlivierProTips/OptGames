@@ -143,4 +143,7 @@ for challenge_name in os.listdir(challenges_dir):
         insert_or_update_challenge(challenge_name, description, flag, file_url, challenge_type)
 
 update_challenge_order(config.ORDERS)
-build_docker_images()
+try:
+    build_docker_images()
+except:
+    print("Error building docker images")
