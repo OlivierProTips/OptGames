@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 import config
 from update_order import update_challenge_order
 from build_dockers import build_docker_images
+from plumbum import colors
 
 # Définition de la base de données et des modèles SQLAlchemy
 Base = declarative_base()
@@ -146,4 +147,4 @@ update_challenge_order(config.ORDERS)
 try:
     build_docker_images()
 except:
-    print("Error building docker images")
+    print("Error building docker images" | colors.red)
