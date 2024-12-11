@@ -8,7 +8,7 @@ def timeout_handler(signum, frame):
     print("\n\nTROP LENT !!!")
     exit(0)
 
-FLAG = "opt{Well_Done}"
+FLAG = "flag{948c24be1094ada732e1f2ea19527962}"
 
 INTRO = f"""
 +---------+
