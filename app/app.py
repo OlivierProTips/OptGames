@@ -82,7 +82,7 @@ def get_public_ip():
     
 # Lancement d'un container Docker
 def launch_docker(dockerfile_dir, user_id, challenge_id, challengeName):
-        # Convertir le chemin en absolu
+    # Convertir le chemin en absolu
     dockerfile_dir = os.path.abspath(dockerfile_dir)
     
     # Vérifier que le répertoire existe et contient un Dockerfile
@@ -177,8 +177,6 @@ def logout():
 @app.route('/')
 def index():
     users = User.query.all()
-    # if not users:
-    #     return "No user"
     return render_template('index.html', users=users)
 
 @app.route('/assets/files/<path:filename>')
@@ -223,13 +221,13 @@ def submit_flag(user_id, challenge_id):
 @app.route('/results/<int:user_id>')
 def results(user_id):
     # Récupérer tous les utilisateurs
-    users = db.session.query(User).all()  # Remplacez 'User' par votre modèle d'utilisateur
+    users = db.session.query(User).all()
     
     # Calculer les résultats pour chaque utilisateur
     results = []
     for user in users:
         # Récupérer tous les challenges
-        total_challenges = db.session.query(Challenge).all()  # Remplacez 'Challenge' par votre modèle de challenge
+        total_challenges = db.session.query(Challenge).all()
         
         # Récupérer les challenges réussis par l'utilisateur
         completed_challenges = db.session.query(Result).filter(Result.user_id == user.id).all()
@@ -246,7 +244,6 @@ def results(user_id):
         
     results = sorted(results, key=lambda x: x['completed_challenges_count'], reverse=True)
     
-    # Passer les résultats à la page 'results.html'
     return render_template('results.html', users=results, user_id=user_id)
 
 @app.route('/start_docker/<int:user_id>/<int:challenge_id>', methods=['POST'])

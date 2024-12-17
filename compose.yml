@@ -1,7 +1,7 @@
 services:
-  ctfgames:
+  optgames:
     build: .
-    container_name: ctfgames
+    container_name: optgames
     ports:
       - "5000:5000"
     volumes:
