@@ -1,0 +1,9 @@
+# Generate password hash:
+# docker run --rm caddy:latest caddy hash-password --plaintext "you_password"
+
+:80 {
+    basicauth / {
+        admin JDJhJDEwJDdqSEx3djRGYmFkTlE5U2hQT2ZCNmRDc0lWTXVPTmJlUjhsUVFXcDNmdjN4YmRjM1Q0UXV3
+    }
+    reverse_proxy adminer:8080
+}

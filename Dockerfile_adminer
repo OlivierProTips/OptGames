@@ -1,0 +1,10 @@
+FROM adminer:latest
+
+# Désactiver la vérification des mots de passe pour SQLite
+RUN echo "<?php\n" \
+         "class AdminerNoPasswordSQLite extends Adminer {\n" \
+         "    function login(\$login, \$password) {\n" \
+         "        return true;\n" \
+         "    }\n" \
+         "}\n" \
+         "return new AdminerNoPasswordSQLite();" > /var/www/html/plugins-enabled/no-password-sqlite.php
