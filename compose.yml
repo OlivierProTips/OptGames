@@ -1,7 +1,7 @@
 services:
-  ctfgames:
+  optgames:
     build: .
-    container_name: ctfgames
+    container_name: optgames_ctf
     ports:
       - "5000:5000"
     volumes:
@@ -13,6 +13,7 @@ services:
     restart: unless-stopped
 
   adminer:
+    container_name: optgames_adminer
     build:
       context: .
       dockerfile: Dockerfile_adminer
@@ -23,6 +24,7 @@ services:
     restart: unless-stopped
 
   caddy:
+    container_name: optgames_caddy
     image: caddy:latest
     ports:
       - "8080:80"
