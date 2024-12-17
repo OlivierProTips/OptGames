@@ -5,5 +5,5 @@
     basicauth / {
         admin JDJhJDEwJDdqSEx3djRGYmFkTlE5U2hQT2ZCNmRDc0lWTXVPTmJlUjhsUVFXcDNmdjN4YmRjM1Q0UXV3
     }
-    reverse_proxy adminer:8080
+    reverse_proxy dbbrowser:3000
 }
