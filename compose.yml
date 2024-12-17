@@ -12,15 +12,11 @@ services:
       - SECRET_KEY=a5d5d08e5e3c637c8c370527233f291d
     restart: unless-stopped
 
-  adminer:
-    container_name: optgames_adminer
-    build:
-      context: .
-      dockerfile: Dockerfile_adminer
+  dbbrowser:
+    container_name: optgames_dbbrowser
+    image: linuxserver/sqlitebrowser:latest
     volumes:
-      - ./data/game.db:/game.db
-    environment:
-      ADMINER_DEFAULT_DB: /game.db
+      - ./data/game.db:/config/game.db
     restart: unless-stopped
 
   caddy:
@@ -31,4 +27,4 @@ services:
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
     depends_on:
-      - adminer
+      - dbbrowser
