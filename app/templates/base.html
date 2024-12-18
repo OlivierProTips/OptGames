@@ -14,7 +14,9 @@
         {% if request.endpoint != 'login' %}
         <a href="{{ url_for('logout') }}" class="btn btn-danger btn-logout">X</a>
         <div class="logo-bottom-right">
-            <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Logo" class="logo-image">
+            <a href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Logo" class="logo-image">
+            </a>
         </div>
         {% endif %}
     </div>
