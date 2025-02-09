@@ -3,10 +3,11 @@ services:
     build: .
     container_name: optgames
     ports:
-      - "5000:5000"
+      - "5100:5000"
     volumes:
       - ./data:/app/assets
       - /var/run/docker.sock:/var/run/docker.sock # for docker challenges
+      # - ./logo.svg:/app/static/images/logo.svg # for custom logo
     environment:
       - FLASK_ENV=production
       - SECRET_KEY=a5d5d08e5e3c637c8c370527233f291d
