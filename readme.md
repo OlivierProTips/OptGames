@@ -17,6 +17,7 @@ sudo adduser $USER docker
 sudo apt install python3 python3.11-venv apt install python3.11-venv
 ```
 
+(Optional, if you need CTF to be accessible from Internet)
 - Enable challenge ports on router
 - Enable reverse proxy
 
@@ -26,21 +27,13 @@ sudo apt install python3 python3.11-venv apt install python3.11-venv
     ```bash
     mkdir data
     ```
-2. Create a venv and install requirements
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate
-    pip install -r requirements.txt
-    ```
-3. From admin folder launch scripts
+2. From admin folder launch scripts
     ```bash
     python3 fill_challenges.py
     python3 admin_password.py
     python3 add_users.py
     ```
-4. Update compose
-    Utiliser `getent group docker` pour avoir le GID du group docker
-5. Launch container
+3. Launch container
     ```bash
     docker compose up -d --build --force-recreate
     ```
