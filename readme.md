@@ -32,13 +32,19 @@ git clone https://github.com/OlivierProTips/OptGames
     ```bash
     mkdir data
     ```
-2. From admin folder launch scripts
+2. Create a venv and install requirements
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    ```
+3. From admin folder launch scripts
     ```bash
     python3 fill_challenges.py
     python3 admin_password.py
     python3 add_users.py
     ```
-3. Launch container
+4. Launch container
     ```bash
     docker compose up -d --build --force-recreate
     ```
