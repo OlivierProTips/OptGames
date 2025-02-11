@@ -8,7 +8,7 @@ sudo apt update
 sudo apt install lsb-release gnupg2 apt-transport-https ca-certificates curl software-properties-common -y
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/debian.gpg
 sudo add-apt-repository "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
-sudo apt install docker.io docker-compose-plugin
+sudo apt install docker.io docker-compose-plugin -y
 sudo adduser $USER docker
 ```
 
