@@ -195,7 +195,7 @@ def user_challenges(user_id):
     active_dockers_dict = {
         docker.challenge_id: docker.port for docker in active_dockers
     }
-    DOCKER_URL = get_public_ip()
+    DOCKER_URL = os.getenv('DOCKER_URL', get_public_ip())
     return render_template('challenges.html', user=user, challenges=challenges, completed_challenges=completed_challenges, active_dockers=active_dockers_dict, docker_url=DOCKER_URL)
 
 @app.route('/submit_flag/<int:user_id>/<int:challenge_id>', methods=['POST'])

@@ -11,4 +11,5 @@ services:
     environment:
       - FLASK_ENV=production
       - SECRET_KEY=a5d5d08e5e3c637c8c370527233f291d
+      - DOCKER_URL=http://mydomain.com
     restart: unless-stopped
