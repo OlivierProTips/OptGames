@@ -14,7 +14,12 @@ sudo adduser $USER docker
 
 - Install python
 ```bash
-sudo apt install python3 python3.11-venv apt install python3.11-venv
+sudo apt install python3 python3.11-venv -y
+```
+
+- Clone repo
+```bash
+git clone https://github.com/OlivierProTips/OptGames
 ```
 
 (Optional, if you need CTF to be accessible from Internet)
