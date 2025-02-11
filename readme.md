@@ -40,8 +40,8 @@ git clone https://github.com/OlivierProTips/OptGames
     ```
 3. From admin folder launch scripts
     ```bash
-    python3 fill_challenges.py
-    python3 admin_password.py
+    python3 init_challenges.py
+    python3 set_password.py
     python3 add_users.py
     ```
 4. Launch container
